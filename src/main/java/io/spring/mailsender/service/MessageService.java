@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class  MessageService {
+public class MessageService {
 
     private final MailManager mailManager;
 
@@ -40,19 +40,21 @@ public class  MessageService {
         context.setVariable("text", text);
         context.setVariable("from", fromAddress);
 
-        for (String to : mailRequestDto.getTo()) {
-            try {
-                mailManager.setTo(to);
-                mailManager.setSubject(subject);
-                mailManager.setThymeleafText(context, fileName, true);
-                mailManager.setFromName(fromAddress, fromName);
+        try {
+            mailManager.setSubject(subject);
+            mailManager.setThymeleafText(context, fileName, true);
+            mailManager.setFromName(fromAddress, fromName);
 
+            for (String to : mailRequestDto.getTo()) {
+                log.info("to -> {}", to);
+                mailManager.setTo(to);
                 mailManager.send();
-            } catch (MailAuthenticationException e) {
-                throw new IllegalArgumentException("계정 인증 실패");
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+        } catch (MailAuthenticationException e) {
+            throw new IllegalArgumentException("계정 인증 실패");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
