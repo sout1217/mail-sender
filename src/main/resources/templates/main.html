@@ -1,0 +1,77 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="#">
+    <meta charset="UTF-8">
+    <title>메일 센더</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- b4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- jQuery.js / popper.js / Bootstrap4.js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $('#add').click(function () {
+                $('.emailList').append(
+                    '        <div class="form-group">\n' +
+                    '            <div class="input-group">\n' +
+                    '                <input class="form-control"  name="to" placeholder="이메일 주소">\n' +
+                    '            </div>\n' +
+                    '        </div>'
+                );
+            });
+
+            $('#async-label').click(function () {
+                let async = $('#async');
+                let bol = async.val();
+                async.val(bol === 'false');
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>메일 발송</h1>
+    <form class="form-block" th:action="@{/mail}" method="post">
+        <div class="emailList">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control"  name="to" placeholder="이메일 주소">
+                    <div class="input-group-append">
+                        <button id="add" class="btn btn-primary form-control" type="button">추가</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control" name="subject" placeholder="제목">
+                <div class="input-group-append p-2">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="async" name="async" value="false">
+                        <label class="custom-control-label" style="user-select: none" id="async-label" for="async">비동기 처리</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="fileName">
+                <option value="message.html">message.html</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="text" placeholder="메일 내용을 입력해주세요." cols="60" rows="20"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="form-control">발송</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
