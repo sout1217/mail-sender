@@ -51,8 +51,6 @@ public class MessageService {
                 mailManager.send();
             }
 
-        } catch (MailAuthenticationException e) {
-            throw new IllegalArgumentException("계정 인증 실패");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package io.spring.mailsender.mail;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -83,6 +84,10 @@ public class MailManager {
     public void send() {
         try {
             sender.send(message);
+
+        } catch (MailAuthenticationException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("계정 인증 실패");
         }catch(Exception e) {
             e.printStackTrace();
         }
